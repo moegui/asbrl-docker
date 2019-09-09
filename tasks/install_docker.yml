@@ -34,6 +34,7 @@
 
   - name: Configure Docker insecure registry
     lineinfile:
+      create: true
       path: /etc/docker/daemon.json
       regexp: '^{}'
       line: '{"insecure-registries": ["172.30.0.0/16"]}'
