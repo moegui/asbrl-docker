@@ -1,39 +1,45 @@
 ---
-- name: Add Docker Yum Repository
-  yum_repository:
-    name: docker-ce
-    description: Docker CE Stable - $basearch
-    baseurl: https://download.docker.com/linux/centos/7/$basearch/stable
-    enabled: 1
-    gpgcheck: 1
-    gpgkey: https://download.docker.com/linux/centos/gpg
+  - name: Add Docker Yum Repository
+    yum_repository:
+      name: docker-ce
+      description: Docker CE Stable - $basearch
+      baseurl: https://download.docker.com/linux/centos/7/$basearch/stable
+      enabled: 1
+      gpgcheck: 1
+      gpgkey: https://download.docker.com/linux/centos/gpg
 
--   name: Install Docker Packages
-    yum:
-      name : "{{item.name}}"
-      state : "{{item.state}}" 
+  -   name: Install Docker Packages
+      yum:
+        name : "{{item.name}}"
+        state : "{{item.state}}" 
+      vars:
+        packages:
+        - name: epel-release
+          state: present      
+        - name: docker-ce
+          state: present           
+        - name: python-pip
+          state: present           
+      with_items: "{{ packages }}"
+      
+  - name: Install Docker Python
+    pip:
+      name: "{{item.name}}"
+      state: "{{item.state}}"
     vars:
       packages:
-      - name: epel-release
-        state: present      
-      - name: docker-ce
-        state: present           
-      - name: python-pip
-        state: present           
-    with_items: "{{ packages }}"
-    
-- name: Install Docker Python
-  pip:
-    name: "{{item.name}}"
-    state: "{{item.state}}"
-  vars:
-    packages:
-    - name: docker
-      state: present
-  with_items: "{{ packages }}"  
+      - name: docker
+        state: present
+    with_items: "{{ packages }}"  
 
-- name: Enable Docker Service
-  systemd:
-    name: docker.service
-    enabled: true
-    state: started         
+  - name: Configure Docker insecure registry
+    lineinfile:
+      path: /etc/docker/daemon.json
+      regexp: '^{}'
+      line: '{"insecure-registries": ["172.30.0.0/16"]}'
+
+  - name: Enable Docker Service
+    systemd:
+      name: docker.service
+      enabled: true
+      state: started         
