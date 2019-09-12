@@ -1,46 +1,35 @@
 ---
-  - name: Docker Certificates
-    gather_facts: false
-    hosts: all
-    order: sorted
-    become: true
+  - name: Nginx Certificates volume
+    docker_volume:
+      name: nginx_certs
+      state: present     
 
-    tags:
-    - docker_certificates
+  - name: CertBot
+    docker_container:
+      name: certbot
+      image: "docker.io/certbot/dns-route53"
+      pull: "yes"
+      state: "present"
+      env: 
+        TZ: "Europe/London"
+        AWS_ACCESS_KEY_ID: "AKIATOAJKJRK2RV7D2XV"
+        AWS_SECRET_ACCESS_KEY: "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"
+      restart_policy: "on-failure"
+      command: "certonly --dns-route53 --register-unsafely-without-email --agree-tos -d violet-book.com -d www.violet-book.com -d vpl-staging.violet-book.com -d ci.violet-book.com"
+      volumes:
+        - nginx_certs:/etc/letsencrypt
 
-    tasks:
-
-    - name: Nginx Certificates volume
-      docker_volume:
-        name: nginx_certs
-        state: present     
-
-    - name: CertBot
-      docker_container:
-        name: certbot
-        image: "docker.io/certbot/dns-route53"
-        pull: "yes"
-        state: "present"
-        env: 
-          TZ: "Europe/London"
-          AWS_ACCESS_KEY_ID: "AKIATOAJKJRK2RV7D2XV"
-          AWS_SECRET_ACCESS_KEY: "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"
-        restart_policy: "on-failure"
-        command: "certonly --dns-route53 --register-unsafely-without-email --agree-tos -d violet-book.com -d www.violet-book.com -d vpl-staging.violet-book.com -d ci.violet-book.com"
-        volumes:
-          - nginx_certs:/etc/letsencrypt
-
-    - name: CertBot Renew
-      docker_container:
-        name: certbot_renew
-        image: "docker.io/certbot/dns-route53"
-        pull: "yes"
-        state: "present"
-        env: 
-          TZ: "Europe/London"
-          AWS_ACCESS_KEY_ID: "AKIATOAJKJRK2RV7D2XV"
-          AWS_SECRET_ACCESS_KEY: "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"
-        restart_policy: "on-failure"
-        command: "renew"
-        volumes:
-          - nginx_certs:/etc/letsencrypt
+  - name: CertBot Renew
+    docker_container:
+      name: certbot_renew
+      image: "docker.io/certbot/dns-route53"
+      pull: "yes"
+      state: "present"
+      env: 
+        TZ: "Europe/London"
+        AWS_ACCESS_KEY_ID: "AKIATOAJKJRK2RV7D2XV"
+        AWS_SECRET_ACCESS_KEY: "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"
+      restart_policy: "on-failure"
+      command: "renew"
+      volumes:
+        - nginx_certs:/etc/letsencrypt
