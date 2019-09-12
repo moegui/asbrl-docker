@@ -1,0 +1,25 @@
+---
+  - name: Watchtower
+    gather_facts: false
+    hosts: all
+    order: sorted
+    become: true
+
+    tags:
+    - watchtower
+
+    tasks:
+
+    - name: Watchtower
+      docker_container:
+        name: watchtower
+        image: "v2tec/watchtower"
+        pull: "yes"
+        state: "started"
+        restart: "yes"
+        env: 
+          TZ: "Europe/London"
+        restart_policy: "unless-stopped"
+        command:  ["--no-pull","--interval","30","stg_backend","pro_backend","stg_mysql"]
+        volumes:
+          - /var/run/docker.sock:/var/run/docker.sock   

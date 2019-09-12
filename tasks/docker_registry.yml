@@ -1,0 +1,42 @@
+---
+  - name: Docker Registry
+    gather_facts: false
+    hosts: all
+    order: sorted
+    become: true
+
+    tags:
+    - docker_registry
+
+    tasks:
+
+    - name: Registry Auth volume
+      docker_volume:
+        name: registry_auth
+        state: present     
+
+    - name: Copy Registry's files to Docker Volume
+      copy:
+        src: registry/htpasswd
+        dest: /var/lib/docker/volumes/registry_auth/_data/ 
+
+    - name: Docker Registry
+      docker_container:
+        name: registry
+        image: "docker.io/registry:2"
+        pull: "yes"
+        state: "started"
+        restart: "yes"
+        env: 
+          TZ: "Europe/London"
+          REGISTRY_HTTP_TLS_CERTIFICATE: /certs/live/violet-book.com/fullchain.pem
+          REGISTRY_HTTP_TLS_KEY: /certs/live/violet-book.com/privkey.pem
+          REGISTRY_AUTH: htpasswd
+          REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
+          REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
+        restart_policy: "unless-stopped"
+        published_ports:
+          - "0.0.0.0:5000:5000"
+        volumes:
+          - nginx_certs:/certs          
+          - registry_auth:/auth
