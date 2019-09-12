@@ -8,7 +8,7 @@
       gpgcheck: 1
       gpgkey: https://download.docker.com/linux/centos/gpg
 
-  - name: Install Docker Packages
+  -   name: Install Docker Packages
       yum:
         name : "{{item.name}}"
         state : "{{item.state}}" 
