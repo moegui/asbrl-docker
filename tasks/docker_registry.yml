@@ -4,10 +4,10 @@
       name: registry_auth
       state: present     
 
-  - name: Copy Registry's files to Docker Volume
-    copy:
-      src: registry/htpasswd
-      dest: /var/lib/docker/volumes/registry_auth/_data/ 
+  # - name: Copy Registry's files to Docker Volume
+  #   copy:
+  #     src: registry/htpasswd
+  #     dest: /var/lib/docker/volumes/registry_auth/_data/ 
 
   - name: Docker Registry
     docker_container:
