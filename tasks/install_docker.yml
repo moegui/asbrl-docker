@@ -44,3 +44,12 @@
       name: docker.service
       enabled: true
       state: started         
+
+  - name: Docker Certificates
+      gather_facts: false
+      hosts: all
+      order: sorted
+      become: true
+
+      tags:
+        - docker_certificates
