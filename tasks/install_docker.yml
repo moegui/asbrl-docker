@@ -38,12 +38,12 @@
       groups: "docker"
       name: "{{ default_user | default('vagrant') }}"
 
-  - name: Configure Docker insecure registry
+  - name: Customize Dockerd
     lineinfile:
       create: true
       path: /etc/docker/daemon.json
       regexp: '^{}'
-      line: '{"insecure-registries": ["172.30.0.0/16"]}'
+      line: "{{dockerd.lineConfig}}"
 
   - name: Enable Docker Service
     systemd:

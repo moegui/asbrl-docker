@@ -13,8 +13,8 @@
       restart: "yes"
       env: 
         TZ: "Europe/London"
-        REGISTRY_HTTP_TLS_CERTIFICATE: /certs/{{RegistryHttpTlsCert}}
-        REGISTRY_HTTP_TLS_KEY: /certs/{{RegistryHttpTlsKey}}
+        REGISTRY_HTTP_TLS_CERTIFICATE: /certs/{{registry.httpTlsCert}}
+        REGISTRY_HTTP_TLS_KEY: /certs/{{registry.httpTlsKey}}
         REGISTRY_AUTH: htpasswd
         REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
         REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
