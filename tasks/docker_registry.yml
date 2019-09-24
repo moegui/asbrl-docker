@@ -4,11 +4,6 @@
       name: registry_auth
       state: present     
 
-  # - name: Copy Registry's files to Docker Volume
-  #   copy:
-  #     src: registry/htpasswd
-  #     dest: /var/lib/docker/volumes/registry_auth/_data/ 
-
   - name: Docker Registry
     docker_container:
       name: registry
@@ -18,8 +13,8 @@
       restart: "yes"
       env: 
         TZ: "Europe/London"
-        REGISTRY_HTTP_TLS_CERTIFICATE: /certs/live/violet-book.com/fullchain.pem
-        REGISTRY_HTTP_TLS_KEY: /certs/live/violet-book.com/privkey.pem
+        REGISTRY_HTTP_TLS_CERTIFICATE: /certs/{{RegistryHttpTlsCert}}
+        REGISTRY_HTTP_TLS_KEY: /certs/{{RegistryHttpTlsKey}}
         REGISTRY_AUTH: htpasswd
         REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
         REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm

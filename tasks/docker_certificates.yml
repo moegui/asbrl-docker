@@ -12,10 +12,10 @@
       state: "present"
       env: 
         TZ: "Europe/London"
-        AWS_ACCESS_KEY_ID: "AKIATOAJKJRK2RV7D2XV"
-        AWS_SECRET_ACCESS_KEY: "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"
+        AWS_ACCESS_KEY_ID: "{{Cert_AwsAccKeyId}}"
+        AWS_SECRET_ACCESS_KEY: "{{Cert_AwsSecretAccKey}}"
       restart_policy: "on-failure"
-      command: "certonly --dns-route53 --register-unsafely-without-email --agree-tos -d violet-book.com -d www.violet-book.com -d vpl-staging.violet-book.com -d ci.violet-book.com"
+      command: "certonly --dns-route53 --register-unsafely-without-email {{CertBot_AgreeTos}}"
       volumes:
         - nginx_certs:/etc/letsencrypt
 
@@ -27,8 +27,8 @@
       state: "present"
       env: 
         TZ: "Europe/London"
-        AWS_ACCESS_KEY_ID: "AKIATOAJKJRK2RV7D2XV"
-        AWS_SECRET_ACCESS_KEY: "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"
+        AWS_ACCESS_KEY_ID: "{{Cert_AwsAccKeyId}}"
+        AWS_SECRET_ACCESS_KEY: "{{Cert_AwsSecretAccKey}}"
       restart_policy: "on-failure"
       command: "renew"
       volumes:
