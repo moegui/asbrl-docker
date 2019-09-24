@@ -43,7 +43,7 @@
       create: true
       path: /etc/docker/daemon.json
       regexp: '^{}'
-      line: "{{dockerd.lineConfig}}"
+      line: "{{dockerd_lineConfig}}"
 
   - name: Enable Docker Service
     systemd:
