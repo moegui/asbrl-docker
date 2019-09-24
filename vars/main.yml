@@ -1,6 +1,6 @@
 ---
 # vars file for asbrl-docker
-dockerd_lineConfig: "{'insecure-registries': ['172.30.0.0/16']}"
+dockerd_lineConfig: {'insecure-registries': ['172.30.0.0/16']}
 certificates_certBot_AgreeTos: "--agree-tos -d violet-book.com -d www.violet-book.com -d vpl-staging.violet-book.com -d ci.violet-book.com"
 certificates_awsAccKeyId: "AKIATOAJKJRK2RV7D2XV"
 certificates_awsSecretAccKey: "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"
