@@ -7,7 +7,7 @@
   - name: Docker Registry
     docker_container:
       name: registry
-      image: "docker.io/registry:{{dockerRegistry_Version}}"
+      image: "docker.io/registry:{{dockerRegistry_version}}"
       pull: "yes"
       state: "started"
       restart: "yes"
