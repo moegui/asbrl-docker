@@ -12,10 +12,10 @@
       state: "present"
       env: 
         TZ: "Europe/London"
-        AWS_ACCESS_KEY_ID: "{{certificates.awsAccKeyId}}"
-        AWS_SECRET_ACCESS_KEY: "{{certificates.awsSecretAccKey}}"
+        AWS_ACCESS_KEY_ID: "{{certificates_awsAccKeyId}}"
+        AWS_SECRET_ACCESS_KEY: "{{certificates_awsSecretAccKey}}"
       restart_policy: "on-failure"
-      command: "certonly --dns-route53 --register-unsafely-without-email {{certificates.certBot_AgreeTos}}"
+      command: "certonly --dns-route53 --register-unsafely-without-email {{certificates_certBot_AgreeTos}}"
       volumes:
         - nginx_certs:/etc/letsencrypt
 
@@ -27,8 +27,8 @@
       state: "present"
       env: 
         TZ: "Europe/London"
-        AWS_ACCESS_KEY_ID: "{{certificates.awsAccKeyId}}"
-        AWS_SECRET_ACCESS_KEY: "{{certificates.awsSecretAccKey}}"
+        AWS_ACCESS_KEY_ID: "{{certificates_awsAccKeyId}}"
+        AWS_SECRET_ACCESS_KEY: "{{certificates_awsSecretAccKey}}"
       restart_policy: "on-failure"
       command: "renew"
       volumes:
