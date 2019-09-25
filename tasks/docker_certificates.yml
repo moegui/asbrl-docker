@@ -7,7 +7,7 @@
   - name: CertBot
     docker_container:
       name: certbot
-      image: "docker.io/certbot/dns-route53"
+      image: "docker.io/certbot/dns-route53:{{certificates_certbot_version}}"
       pull: "yes"
       state: "present"
       env: 
@@ -22,7 +22,7 @@
   - name: CertBot Renew
     docker_container:
       name: certbot_renew
-      image: "docker.io/certbot/dns-route53"
+      image: "docker.io/certbot/dns-route53:{{certificates_certbot_version}}"
       pull: "yes"
       state: "present"
       env: 
