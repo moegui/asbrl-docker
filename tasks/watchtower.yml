@@ -9,6 +9,6 @@
       env: 
         TZ: "Europe/London"
       restart_policy: "unless-stopped"
-      command:  {{watchtower_command}}
+      command: '{{watchtower_command}}'
       volumes:
         - /var/run/docker.sock:/var/run/docker.sock   
