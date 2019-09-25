@@ -29,6 +29,7 @@ vars:
         certificates_awsSecretAccKey: "awsSecretAccKey"
         registry_httpTlsCert: "live/HOST.com/fullchain.pem" (relative to volume)
         registry_httpTlsKey: "live/HOST.com/privkey.pem"    (relative to volume)
+        watchtower_command: ["--no-pull","--interval","30","stg_backend","pro_backend","stg_mysql"]
 ```
 
 Dependencies
