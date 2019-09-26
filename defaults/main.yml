@@ -1,2 +1,6 @@
 ---
 # defaults file for asbrl-docker
+dockerRegistry_version: "2"
+dockerd_lineConfig: '{"insecure-registries": ["172.30.0.0/16"]}'
+certificates_certbot_version: "latest"
+watchtower_version: "latest"

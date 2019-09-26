@@ -1,0 +1,26 @@
+---
+  - name: Registry Auth volume
+    docker_volume:
+      name: registry_auth
+      state: present     
+
+  - name: Docker Registry
+    docker_container:
+      name: registry
+      image: "docker.io/registry:{{dockerRegistry_version}}"
+      pull: "yes"
+      state: "started"
+      restart: "yes"
+      env: 
+        TZ: "Europe/London"
+        REGISTRY_HTTP_TLS_CERTIFICATE: /certs/{{registry_httpTlsCert}}
+        REGISTRY_HTTP_TLS_KEY: /certs/{{registry_httpTlsKey}}
+        REGISTRY_AUTH: htpasswd
+        REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
+        REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
+      restart_policy: "unless-stopped"
+      published_ports:
+        - "0.0.0.0:5000:5000"
+      volumes:
+        - nginx_certs:/certs          
+        - registry_auth:/auth

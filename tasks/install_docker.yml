@@ -32,15 +32,21 @@
         state: present
     with_items: "{{ packages }}"  
 
-  - name: Configure Docker insecure registry
+  - name: Add vagrant user to dockerd group
+    user:
+      append: "yes"
+      groups: "docker"
+      name: "{{ default_user | default('vagrant') }}"
+
+  - name: Customize Dockerd
     lineinfile:
       create: true
       path: /etc/docker/daemon.json
       regexp: '^{}'
-      line: '{"insecure-registries": ["172.30.0.0/16"]}'
+      line: '{{dockerd_lineConfig}} | to_json'
 
   - name: Enable Docker Service
     systemd:
       name: docker.service
       enabled: true
-      state: started         
+      state: started
