@@ -1,6 +1,14 @@
 ---
 # defaults file for asbrl-docker
-dockerRegistry_version: "2"
-dockerd_lineConfig: '{"insecure-registries": ["172.30.0.0/16"]}'
+
+asbrl_docker_install_docker: true
+asbrl_docker_install_docker_daemon: '{"insecure-registries": ["10.0.0.0/8","172.16.0.0/12","192.168.0.0/16"]}'
+
+asbrl_docker_install_certificates: false
 certificates_certbot_version: "latest"
+
+asbrl_docker_install_registry: false
+dockerRegistry_version: "2"
+
+asbrl_docker_install_watchtower: false
 watchtower_version: "latest"
