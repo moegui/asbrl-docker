@@ -43,7 +43,7 @@
       create: true
       path: /etc/docker/daemon.json
       regexp: '^{}'
-      line: '{{ asbrl_docker_install_docker_daemon }} | to_json'
+      line: "{{ asbrl_docker_install_docker_daemon | to_nice_json }}"
 
   - name: Enable Docker Service
     systemd:
