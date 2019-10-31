@@ -39,11 +39,10 @@
       name: "{{ default_user | default('vagrant') }}"
 
   - name: Customize Dockerd
-    lineinfile:
-      create: true
-      path: /etc/docker/daemon.json
-      regexp: '^{}'
-      line: "{{ asbrl_docker_install_docker_daemon | to_nice_json }}"
+    template:
+      src: daemon.json.j2
+      dest: /etc/docker/daemon.json   
+      remote_src: no      
 
   - name: Enable Docker Service
     systemd:
