@@ -38,6 +38,11 @@
       groups: "docker"
       name: "{{ default_user | default('vagrant') }}"
 
+  - name: Create Docker directory
+    file:
+      path: /etc/docker
+      state: directory
+
   - name: Customize Dockerd
     template:
       src: daemon.json.j2
