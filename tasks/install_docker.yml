@@ -10,7 +10,7 @@
 
 - include_tasks: setup-{{ansible_os_family | lower }}.yml
   vars: 
-    packages_install: "{{packages_install}}"
+    packages: "{{packages_install}}"
 
 - name: Install Docker Python
   pip:
