@@ -7,10 +7,10 @@
     - "{{ ansible_os_family | lower }}-{{ ansible_distribution_major_version | lower }}.yml"
     - "{{ ansible_distribution | lower }}.yml"
     - "{{ ansible_os_family | lower }}.yml"
-  tags:
-    - always
 
 - include_tasks: setup-{{ansible_os_family | lower }}.yml
+  vars: 
+    packages_install: "{{packages_install}}"
 
 - name: Install Docker Python
   pip:

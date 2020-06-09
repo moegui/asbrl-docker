@@ -12,4 +12,4 @@
     name : "{{item.name}}"
     state : "{{item.state}}"
     update_cache : yes                   
-  with_items: "{{ packages_install }}"
+  with_items: "{{ packages }}"
