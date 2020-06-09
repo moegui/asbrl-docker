@@ -1,7 +1,7 @@
 Role Name
 =========
 
-Install the last version of the Docker Community Edition.
+Install the latest stable version of the Docker Community Edition.
 
 Requirements
 ------------
