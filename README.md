@@ -1,35 +1,45 @@
 Role Name
 =========
 
-A brief description of the role goes here.
+Install the last version of the Docker Community Edition.
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
++ Git (need it for Galaxy Role).
++ The role is prepared to run on **Ubuntu** and **Centos** enviroments. 
 
 Role Variables
 --------------
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
-
-# defaults file for asbrl-docker
   > Any default value can be overrided by import-task/vars
 ``` 
-dockerRegistry_version: "2"
-dockerd_lineConfig: '{"insecure-registries": ["172.30.0.0/16"]}'
+asbrl_docker_install_docker: true
+asbrl_docker_install_docker_daemon: {"insecure-registries": ["10.0.0.0/8","172.16.0.0/12","192.168.0.0/16"]}
+
+asbrl_docker_install_certificates: false
 certificates_certbot_version: "latest"
+
+asbrl_docker_install_registry: false
+dockerRegistry_version: "2"
+
+asbrl_docker_install_watchtower: false
 watchtower_version: "latest"
+
+# Used only for Debian/Ubuntu.
+docker_apt_arch: amd64
+docker_apt_repository: "deb [arch={{ docker_apt_arch }}] https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable"
+docker_apt_ignore_key_error: true
+docker_apt_gpg_key: https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg
+
+# Used only for RedHat/CentOS/Fedora.
+docker_yum_repo_url: https://download.docker.com/linux/{{ (ansible_distribution == "Fedora") | ternary("fedora","centos") }}/docker-ce.repo
+docker_yum_gpg_key: https://download.docker.com/linux/centos/gpg
 ``` 
 
 # custom vars
 ``` 
 vars: 
-        certificates_certBot_AgreeTos: "--agree-tos -d HOST.com -d www.HOST.com -d  vpl-staging.HOST.com -d ci.HOST.com"
-        certificates_awsAccKeyId: "awsAccKeyId"
-        certificates_awsSecretAccKey: "awsSecretAccKey"
-        registry_httpTlsCert: "live/HOST.com/fullchain.pem" (relative to volume)
-        registry_httpTlsKey: "live/HOST.com/privkey.pem"    (relative to volume)
-        watchtower_command: '["--no-pull","--interval","30","stg_backend","pro_backend","stg_mysql"]'
+
 ```
 
 Dependencies
@@ -42,9 +52,16 @@ Example Playbook
 
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+```
+- name: Installing Docker CE
+  include_role:
+    name: asbrl-docker
+  vars:
+    asbrl_docker_install_docker: true
+    asbrl_docker_install_certificates: false
+    asbrl_docker_install_registry: false
+    asbrl_docker_install_watchtower: false
+```
 
 License
 -------
@@ -54,4 +71,4 @@ BSD
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+www.moegui.com
