@@ -1,5 +1,6 @@
 ---
 - name: Gather variables for each operating system
+  gather_facts: true
   include_vars: "{{ item }}"
   with_first_found:
     - "{{ hostvars[inventory_hostname].ansible_distribution | lower }}-{{ hostvars[inventory_hostname].ansible_distribution_version | lower }}.yml"
