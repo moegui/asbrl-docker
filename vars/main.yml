@@ -1,2 +1,5 @@
 ---
 # vars file for asbrl-docker
+packages_install:
+  - docker-ce
+  - python-pip
