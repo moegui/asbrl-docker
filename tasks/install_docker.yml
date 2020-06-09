@@ -1,4 +1,8 @@
 ---
+
+- debug:
+    msg: "{{ ansible_distribution }}"
+
 - name: Gather variables for each operating system
   include_vars: "{{ item }}"
   with_first_found:
