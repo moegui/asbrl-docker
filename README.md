@@ -6,7 +6,8 @@ Install the last version of the Docker Community Edition.
 Requirements
 ------------
 
-+ Git (need it for Galaxy Role).
++ Git (need it for using Galaxy Role).
++ Set gather_facts on true.
 + The role is prepared to run on **Ubuntu** and **Centos** enviroments. 
 
 Role Variables
@@ -51,14 +52,33 @@ Example Playbook
 ----------------
 
 ```
-- name: Installing Docker CE
-  include_role:
-    name: asbrl-docker
-  vars:
-    asbrl_docker_install_docker: true
-    asbrl_docker_install_certificates: false
-    asbrl_docker_install_registry: false
-    asbrl_docker_install_watchtower: false
+- name: Deploy
+  gather_facts: true
+  hosts: default
+  order: sorted
+  become: true
+
+  pre_tasks:
+
+  - name: Install git (need it for Galaxy Roles)
+    package:
+      name : "git"
+      state : present
+      update_cache : yes    
+
+  - name: Install Galaxy Roles
+    local_action: command ansible-galaxy install -f -r requirements.yml --roles-path /etc/ansible/roles
+
+  tasks:
+
+  - name: Installing Docker CE
+    include_role:
+      name: asbrl-docker
+    vars:
+      asbrl_docker_install_docker: true
+      asbrl_docker_install_certificates: false
+      asbrl_docker_install_registry: false
+      asbrl_docker_install_watchtower: false
 ```
 
 License
