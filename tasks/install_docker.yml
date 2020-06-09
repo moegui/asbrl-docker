@@ -9,8 +9,12 @@
     - "{{ ansible_os_family | lower }}.yml"
 
 - include_tasks: setup-{{ansible_os_family | lower }}.yml
-  vars: 
-    packages: "{{packages_install}}"
+
+- name: Install base packages
+  package:
+    name : "{{packages_install}}"
+    state : present
+    update_cache : yes                   
 
 - name: Install Docker Python
   pip:
