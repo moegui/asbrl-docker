@@ -1,0 +1,4 @@
+packages_install:
+  - epel-release
+  - docker-ce
+  - python-pip

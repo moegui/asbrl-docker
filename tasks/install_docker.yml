@@ -1,56 +1,37 @@
 ---
-  - name: Add Docker Yum Repository
-    yum_repository:
-      name: docker-ce
-      description: Docker CE Stable - $basearch
-      baseurl: https://download.docker.com/linux/centos/7/$basearch/stable
-      enabled: 1
-      gpgcheck: 1
-      gpgkey: https://download.docker.com/linux/centos/gpg
+- include_vars: "{{ansible_os_family}}.yml"
 
-  -   name: Install Docker Packages
-      yum:
-        name : "{{item.name}}"
-        state : "{{item.state}}" 
-      vars:
-        packages:
-        - name: epel-release
-          state: present      
-        - name: docker-ce
-          state: present           
-        - name: python-pip
-          state: present           
-      with_items: "{{ packages }}"
-      
-  - name: Install Docker Python
-    pip:
-      name: "{{item.name}}"
-      state: "{{item.state}}"
-    vars:
-      packages:
-      - name: docker
-        state: present
-    with_items: "{{ packages }}"  
+- include_tasks: setup-{{ansible_os_family}}.yml
 
-  - name: Add vagrant user to dockerd group
-    user:
-      append: "yes"
-      groups: "docker"
-      name: "{{ default_user | default('vagrant') }}"
+- name: Install Docker Python
+  pip:
+    name: "{{item.name}}"
+    state: "{{item.state}}"
+  vars:
+    packages:
+    - name: docker
+      state: present
+  with_items: "{{ packages }}"  
 
-  - name: Create Docker directory
-    file:
-      path: /etc/docker
-      state: directory
+- name: Add vagrant user to dockerd group
+  user:
+    append: "yes"
+    groups: "docker"
+    name: "{{ default_user | default('vagrant') }}"
 
-  - name: Customize Dockerd
-    template:
-      src: daemon.json.j2
-      dest: /etc/docker/daemon.json   
-      remote_src: no      
+- name: Create Docker directory
+  file:
+    path: /etc/docker
+    state: directory
 
-  - name: Enable Docker Service
-    systemd:
-      name: docker.service
-      enabled: true
-      state: started
+- name: Customize Dockerd
+  template:
+    src: daemon.json.j2
+    dest: /etc/docker/daemon.json   
+    remote_src: no      
+
+- name: Enable Docker Service
+  systemd:
+    name: docker.service
+    enabled: true
+    state: started

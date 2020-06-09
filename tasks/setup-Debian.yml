@@ -1,0 +1,15 @@
+- name: Install Docker key
+  apt_key: 
+    url: https://download.docker.com/linux/ubuntu/gpg 
+
+- name: Add Docker Apt Repository
+  apt_repository:
+    filename: docker-ce
+    repo: deb https://download.docker.com/linux/ubuntu bionic stable
+
+- name: Install base packages
+  apt:
+    name : "{{item.name}}"
+    state : "{{item.state}}"
+    update_cache : yes                   
+  with_items: "{{ packages_install }}"
