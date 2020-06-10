@@ -3,3 +3,7 @@
 packages_install:
   - docker-ce
   - python-pip
+
+pip_packages_install:
+  - docker
+  - docker-py
