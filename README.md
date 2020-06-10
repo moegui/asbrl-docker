@@ -1,4 +1,4 @@
-Role Name
+asbrl-docker
 =========
 
 Install the latest stable version of the Docker Community Edition.
