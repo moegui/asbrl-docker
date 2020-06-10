@@ -7,4 +7,3 @@ packages_install:
 
 pip_packages_install:
   - docker
-  - docker-py
