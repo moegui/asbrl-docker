@@ -1,0 +1,6 @@
+packages_install:
+  - wget
+  - docker-ce
+  - python-pip
+  - python3-pip
+  - python-docker
