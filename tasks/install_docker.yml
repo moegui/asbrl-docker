@@ -7,17 +7,17 @@
     - "{{ ansible_distribution | lower }}.yml"
 
 - name: Add Repository
-  include_tasks: setup-{{ansible_os_family | lower }}.yml
+  include_tasks: setup-{{ ansible_os_family | lower }}.yml
 
 - name: Install base packages
   package:
-    name : "{{packages_install}}"
+    name : "{{ packages_install }}"
     state : present
-    update_cache : yes                   
+    update_cache : yes
 
 - name: Install Docker Python
   pip:
-    name: "{{pip_packages_install}}"
+    name: "{{ pip_packages_install }}"
     state: present
 
 - name: Add vagrant user to dockerd group
@@ -30,12 +30,14 @@
   file:
     path: /etc/docker
     state: directory
+    mode: 0644
 
 - name: Customize Dockerd
   template:
     src: daemon.json.j2
-    dest: /etc/docker/daemon.json   
-    remote_src: no      
+    dest: /etc/docker/daemon.json
+    remote_src: no
+    mode: 0644
 
 - name: Enable Docker Service
   systemd:

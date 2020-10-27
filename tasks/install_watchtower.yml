@@ -2,13 +2,13 @@
   - name: Watchtower
     docker_container:
       name: watchtower
-      image: "v2tec/watchtower:{{watchtower_version}}"
+      image: "v2tec/watchtower:{{ watchtower_version }}"
       pull: "yes"
       state: "started"
       restart: "yes"
-      env: 
+      env:
         TZ: "Europe/London"
       restart_policy: "unless-stopped"
-      command: '{{watchtower_command}}'
+      command: '{{ watchtower_command }}'
       volumes:
-        - /var/run/docker.sock:/var/run/docker.sock   
+        - /var/run/docker.sock:/var/run/docker.sock

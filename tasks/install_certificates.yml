@@ -2,33 +2,33 @@
   - name: Nginx Certificates volume
     docker_volume:
       name: nginx_certs
-      state: present     
+      state: present
 
   - name: CertBot
     docker_container:
       name: certbot
-      image: "docker.io/certbot/dns-route53:{{certificates_certbot_version}}"
+      image: "docker.io/certbot/dns-route53:{{ certificates_certbot_version }}"
       pull: "yes"
       state: "present"
-      env: 
+      env:
         TZ: "Europe/London"
-        AWS_ACCESS_KEY_ID: "{{certificates_awsAccKeyId}}"
-        AWS_SECRET_ACCESS_KEY: "{{certificates_awsSecretAccKey}}"
+        AWS_ACCESS_KEY_ID: "{{ certificates_awsAccKeyId }}"
+        AWS_SECRET_ACCESS_KEY: "{{ certificates_awsSecretAccKey }}"
       restart_policy: "on-failure"
-      command: "certonly --dns-route53 --register-unsafely-without-email {{certificates_certBot_AgreeTos}}"
+      command: "certonly --dns-route53 --register-unsafely-without-email {{ certificates_certBot_AgreeTos }}"
       volumes:
         - nginx_certs:/etc/letsencrypt
 
   - name: CertBot Renew
     docker_container:
       name: certbot_renew
-      image: "docker.io/certbot/dns-route53:{{certificates_certbot_version}}"
+      image: "docker.io/certbot/dns-route53:{{ certificates_certbot_version }}"
       pull: "yes"
       state: "present"
-      env: 
+      env:
         TZ: "Europe/London"
-        AWS_ACCESS_KEY_ID: "{{certificates_awsAccKeyId}}"
-        AWS_SECRET_ACCESS_KEY: "{{certificates_awsSecretAccKey}}"
+        AWS_ACCESS_KEY_ID: "{{ certificates_awsAccKeyId }}"
+        AWS_SECRET_ACCESS_KEY: "{{ certificates_awsSecretAccKey }}"
       restart_policy: "on-failure"
       command: "renew"
       volumes:
