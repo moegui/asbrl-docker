@@ -2,6 +2,8 @@
   rpm_key:
     key: "{{ docker_yum_gpg_key }}"
     state: present
+  tags:
+  - asbrl-docker
 
 - name: Add Docker repository.
   get_url:
@@ -10,3 +12,5 @@
     owner: root
     group: root
     mode: 0644
+  tags:
+  - asbrl-docker

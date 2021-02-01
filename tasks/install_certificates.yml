@@ -3,6 +3,8 @@
     docker_volume:
       name: nginx_certs
       state: present
+    tags:
+    - asbrl-docker
 
   - name: CertBot
     docker_container:
@@ -18,6 +20,8 @@
       command: "certonly --dns-route53 --register-unsafely-without-email {{ certificates_certBot_AgreeTos }}"
       volumes:
         - nginx_certs:/etc/letsencrypt
+    tags:
+    - asbrl-docker
 
   - name: CertBot Renew
     docker_container:
@@ -33,3 +37,5 @@
       command: "renew"
       volumes:
         - nginx_certs:/etc/letsencrypt
+    tags:
+    - asbrl-docker

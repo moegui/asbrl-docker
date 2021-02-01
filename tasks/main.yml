@@ -1,12 +1,20 @@
 ---
 - import_tasks: install_docker.yml
   when: asbrl_docker_install_docker
+  tags:
+  - asbrl-docker
 
 - import_tasks: install_certificates.yml
   when: asbrl_docker_install_certificates
+  tags:
+  - asbrl-docker
 
 - import_tasks: install_registry.yml
   when: asbrl_docker_install_registry
+  tags:
+  - asbrl-docker
 
 - import_tasks: install_watchtower.yml
   when: asbrl_docker_install_watchtower
+  tags:
+  - asbrl-docker

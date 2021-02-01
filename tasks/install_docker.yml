@@ -5,32 +5,44 @@
   with_first_found:
     - "{{ ansible_distribution | lower }}-{{ ansible_distribution_version | lower }}.yml"
     - "{{ ansible_distribution | lower }}.yml"
+  tags:
+  - asbrl-docker
 
 - name: Add Repository
   include_tasks: setup-{{ ansible_os_family | lower }}.yml
+  tags:
+  - asbrl-docker
 
 - name: Install base packages
   package:
     name : "{{ packages_install }}"
     state : present
     update_cache : yes
+  tags:
+  - asbrl-docker
 
 - name: Install Docker Python
   pip:
     name: "{{ pip_packages_install }}"
     state: present
+  tags:
+  - asbrl-docker
 
 - name: Add vagrant user to dockerd group
   user:
     append: "yes"
     groups: "docker"
     name: "{{ default_user | default('vagrant') }}"
+  tags:
+  - asbrl-docker
 
 - name: Create Docker directory
   file:
     path: /etc/docker
     state: directory
     mode: 0644
+  tags:
+  - asbrl-docker
 
 - name: Customize Dockerd
   template:
@@ -38,9 +50,13 @@
     dest: /etc/docker/daemon.json
     remote_src: no
     mode: 0644
+  tags:
+  - asbrl-docker
 
 - name: Enable Docker Service
   systemd:
     name: docker.service
     enabled: true
     state: started
+  tags:
+  - asbrl-docker
