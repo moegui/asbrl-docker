@@ -12,3 +12,5 @@
       command: '{{ watchtower_command }}'
       volumes:
         - /var/run/docker.sock:/var/run/docker.sock
+    tags:
+    - asbrl-docker

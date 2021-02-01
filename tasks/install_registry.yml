@@ -3,6 +3,8 @@
     docker_volume:
       name: registry_auth
       state: present
+    tags:
+    - asbrl-docker
 
   - name: Docker Registry
     docker_container:
@@ -24,3 +26,5 @@
       volumes:
         - nginx_certs:/certs
         - registry_auth:/auth
+    tags:
+    - asbrl-docker

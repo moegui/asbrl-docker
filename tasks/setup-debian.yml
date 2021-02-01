@@ -5,9 +5,13 @@
     state: present
   register: add_repository_key
   ignore_errors: "{{ docker_apt_ignore_key_error }}"
+  tags:
+  - asbrl-docker
 
 - name: Add Docker repository.
   apt_repository:
     repo: "{{ docker_apt_repository }}"
     state: present
     update_cache: true
+  tags:
+  - asbrl-docker
